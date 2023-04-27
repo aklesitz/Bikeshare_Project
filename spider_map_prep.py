@@ -29,10 +29,7 @@ port = input('port: ')
 user = input('user: ')
 pw = input('password: ')
 conn_string = "host dbname port pw"
-#conn_string = "host = localhost \
-#                dbname = 'bluebikes_all' \
-#                port = '5433' \
-#                user = 'postgres' password = 'a'"
+
 conn = psycopg2.connect(conn_string)
 cursor = conn.cursor()
 print('opened database successfully')
