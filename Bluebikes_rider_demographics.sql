@@ -1,4 +1,4 @@
--- Finding number of users from each birth year across all years of data
+-- Finding the number of users from each birth year across all years of data
 WITH bluebikes_all AS (
 	SELECT *
 	FROM bluebikes_2016
@@ -37,7 +37,7 @@ FROM bluebikes_all
 WHERE round(user_birth_year::numeric, 0) < 1948
 OR user_birth_year is null;
 
--- Finding gender makeup among all riders
+-- Finding makeup of self-reported gender among all riders
 WITH bluebikes_all AS (
 	SELECT *
 	FROM bluebikes_2016
