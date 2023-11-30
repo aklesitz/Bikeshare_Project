@@ -8,6 +8,8 @@ This data was collected from [Bluebikes System Data](https://bluebikes.com/syste
 ### Customer Demographic Data
 In analyzing the demographic data, I filtered out riders over 75, as there was a lot of unreliable data in this category. This filtered out 26,033 reported riders, with birth years going back as far as 1863, as well as 447,149 unreported birth years. In total 6.92% of the data on riders' birth years was unreliable. The inverse of that was not a problem. The earliest reported birth year was 2003, and a twenty year old rider seems very likely. 64% of riders identified as male, 22% female, and around 14% unknown or unreported. <br>
 [SQL CODE](https://github.com/aklesitz/Bikeshare_Project/blob/main/Bluebikes_rider_demographics.sql)
+Visualizing the age distribution of riders revealed another problem:
+![Local Image](Bikeshare_project/rider_age_visualization)
 ### Bike Docking Stations
 This table contains the latitude and longtitude, district, total number of bike docks, and numerical id for each of the 339 stations across Boston. It is straightforward and needed no cleaning. The latitude and longtitude columns were very helpful in creating visualizations for this project.
 ### Rides Data
