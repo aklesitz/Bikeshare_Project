@@ -1,4 +1,4 @@
--- Finding the number of users from each birth year across all years of data
+-- Number of users from each birth year across all years of data
 WITH bluebikes_all AS (
 	SELECT *
 	FROM bluebikes_2016
@@ -18,7 +18,7 @@ FROM bluebikes_all
 GROUP BY birth_year
 ORDER BY birth_year;
 
--- Count of riders "over 75"
+-- Count and percentage of riders "over 75" or birth year not reported
 WITH bluebikes_all AS (
 	SELECT *
 	FROM bluebikes_2016
@@ -31,11 +31,20 @@ WITH bluebikes_all AS (
 	UNION ALL
 	SELECT *
 	FROM bluebikes_2019
+),
+ride_total AS (
+	SELECT COUNT(*) as total_rides
+	FROM bluebikes_all
 )
-SELECT COUNT(*)
-FROM bluebikes_all
-WHERE round(user_birth_year::numeric, 0) < 1948
-OR user_birth_year is null;
+SELECT CASE
+	WHEN user_birth_year::numeric < 1948
+	OR user_birth_year is null THEN 'unreliable_data'
+	ELSE 'demographic_data' END AS data_viability,
+	COUNT(*) AS total,
+	ROUND(COUNT(*) * 100.0 / rt.total_rides, 2) AS percentage
+FROM bluebikes_all,
+	ride_total rt
+GROUP BY 1, rt.total_rides
 
 -- Finding makeup of self-reported gender among all riders
 WITH bluebikes_all AS (
