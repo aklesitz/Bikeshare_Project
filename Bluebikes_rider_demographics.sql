@@ -12,8 +12,8 @@ WITH bluebikes_all AS (
 	SELECT *
 	FROM bluebikes_2019
 )
-SELECT user_birth_year::numeric AS birth_year,  -- user_birth_years is recorded as text and must be cast to numeric 
-	COUNT(*) AS riders
+SELECT user_birth_year::numeric AS birth_year,  -- user_birth_year for 2018 has some trailing .0's for some years
+	COUNT(*) AS riders							-- casting to numeric takes care of them
 FROM bluebikes_all
 GROUP BY birth_year
 ORDER BY birth_year;
@@ -45,6 +45,28 @@ SELECT CASE
 FROM bluebikes_all,
 	ride_total rt
 GROUP BY 1, rt.total_rides
+
+-- Removing unreliable data from first query for visualization
+WITH bluebikes_all AS (
+	SELECT *
+	FROM bluebikes_2016
+	UNION ALL
+	SELECT *
+	FROM bluebikes_2017
+	UNION ALL
+	SELECT *
+	FROM bluebikes_2018
+	UNION ALL
+	SELECT *
+	FROM bluebikes_2019
+)
+SELECT (2023 - user_birth_year::numeric) AS rider_age,   
+	COUNT(*) AS riders
+FROM bluebikes_all
+WHERE user_birth_year::numeric > 1948
+AND user_birth_year is not null
+GROUP BY rider_age
+ORDER BY rider_age;
 
 -- Finding makeup of self-reported gender among all riders
 WITH bluebikes_all AS (
