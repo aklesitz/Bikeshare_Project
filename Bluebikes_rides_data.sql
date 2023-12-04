@@ -70,3 +70,28 @@ SELECT user_type,
 FROM bluebikes_all,
 	ride_totals rt
 GROUP BY user_type, rt.total_rides;
+
+-- Most popular starting stations
+WITH bluebikes_all AS (
+	SELECT *
+	FROM bluebikes_2016
+	UNION ALL
+	SELECT *
+	FROM bluebikes_2017
+	UNION ALL
+	SELECT *
+	FROM bluebikes_2018
+	UNION ALL
+	SELECT *
+	FROM bluebikes_2019
+)
+SELECT st.id,
+	st.name,
+	st.latitude,
+	st.longitude,
+	COUNT(rds.*) AS total_rides
+FROM bluebikes_stations st
+JOIN bluebikes_all rds
+ON rds.start_station_id = st.id
+GROUP BY st.id, st.name, st.latitude, st.longitude
+ORDER BY total_rides DESC;
