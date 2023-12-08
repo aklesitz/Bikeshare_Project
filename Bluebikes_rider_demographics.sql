@@ -18,6 +18,30 @@ FROM bluebikes_all
 GROUP BY birth_year
 ORDER BY birth_year;
 
+-- Count of riders over 75 or age not reported
+WITH bluebikes_all AS (
+	SELECT *
+	FROM bluebikes_2016
+	UNION ALL
+	SELECT *
+	FROM bluebikes_2017
+	UNION ALL
+	SELECT *
+	FROM bluebikes_2018
+	UNION ALL
+	SELECT *
+	FROM bluebikes_2019
+)
+SELECT
+	CASE
+		WHEN user_birth_year::numeric < 1944 THEN 'Over 75'
+		WHEN user_birth_year is null THEN 'Not Reported'
+		ELSE 'Viable Data'
+	END AS unreliable_data,
+	COUNT(*)
+FROM bluebikes_all
+GROUP BY 1;
+
 -- Count and percentage of riders "over 75" or birth year not reported
 WITH bluebikes_all AS (
 	SELECT *
@@ -37,14 +61,14 @@ ride_total AS (
 	FROM bluebikes_all
 )
 SELECT CASE
-	WHEN user_birth_year::numeric < 1948
-	OR user_birth_year is null THEN 'unreliable_data'
-	ELSE 'demographic_data' END AS data_viability,
+	WHEN user_birth_year::numeric > 1944 THEN 'Over 75'
+	WHEN user_birth_year is null THEN 'Not Reported'
+	ELSE 'Viable Data' END AS data_viability,
 	COUNT(*) AS total,
 	ROUND(COUNT(*) * 100.0 / rt.total_rides, 2) AS percentage
 FROM bluebikes_all,
 	ride_total rt
-GROUP BY 1, rt.total_rides
+GROUP BY 1, rt.total_rides;
 
 -- Removing unreliable data from first query for visualization
 WITH bluebikes_all AS (
@@ -97,3 +121,4 @@ SELECT
 FROM bluebikes_all,
 	ride_totals rt
 GROUP BY user_gender, rt.total_rides;
+
