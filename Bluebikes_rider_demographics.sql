@@ -13,7 +13,7 @@ WITH bluebikes_all AS (
 	FROM bluebikes_2019
 )
 SELECT user_birth_year::numeric AS birth_year,  -- user_birth_year for 2018 has some trailing .0's for some years
-	COUNT(*) AS riders				-- casting to numeric takes care of them
+	COUNT(*) AS riders		-- casting to numeric takes care of them
 FROM bluebikes_all
 GROUP BY birth_year
 ORDER BY birth_year;
