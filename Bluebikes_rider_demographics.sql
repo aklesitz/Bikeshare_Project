@@ -60,7 +60,7 @@ WITH bluebikes_all AS (
 	SELECT *
 	FROM bluebikes_2019
 )
-SELECT (2023 - user_birth_year::numeric) AS rider_age,   
+SELECT (2019 - user_birth_year::numeric) AS rider_age,   
 	COUNT(*) AS riders
 FROM bluebikes_all
 WHERE user_birth_year::numeric > 1948
