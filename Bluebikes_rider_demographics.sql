@@ -61,7 +61,7 @@ ride_total AS (
 	FROM bluebikes_all
 )
 SELECT CASE
-	WHEN user_birth_year::numeric > 1944 THEN 'Over 75'
+	WHEN user_birth_year::numeric < 1944 THEN 'Over 75'
 	WHEN user_birth_year is null THEN 'Not Reported'
 	ELSE 'Viable Data' END AS data_viability,
 	COUNT(*) AS total,
@@ -87,7 +87,7 @@ WITH bluebikes_all AS (
 SELECT (2019 - user_birth_year::numeric) AS rider_age,   
 	COUNT(*) AS riders
 FROM bluebikes_all
-WHERE user_birth_year::numeric > 1948
+WHERE user_birth_year::numeric < 1944
 AND user_birth_year is not null
 GROUP BY rider_age
 ORDER BY rider_age;
