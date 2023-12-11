@@ -17,7 +17,7 @@ This gave me a dataset of 1,090,446 rides in our target demographic to analyze, 
 
 
 ### Customer Demographic Data
-In analyzing the demographic data, I filtered out riders over 75, as there was a lot of unreliable data in this category. This filtered out 456,292 reported rides, with birth years going back as far as 1863, as well as 447,149 unreported birth years. In total 6.92% of the data on riders' birth years was unreliable. The inverse of that was not a problem. The earliest reported birth year was 2003, and a twenty year old rider seems very likely.  <br><br>
+To clean the rider's demographic data, I filtered out riders over 75 as calculated by the last year of data available for this project: 2019. There were reported birth years as far back as 1863, which was obviously unreliable data. This filtered out 9,143 reported rides. I also filtered out the 447,149 unreported birth years. In total 6.67% of the data on riders' birth years was unreliable. The earliest reported birth year was 2003, and a 16 year old rider seemed likely.  <br><br>
 [SQL CODE](https://github.com/aklesitz/Bikeshare_Project/blob/main/Bluebikes_rider_demographics.sql) <br> <br>
 Visualizing the age distribution of riders revealed another problem: <br><br>
 ![Age Distribution](Visualizations/rider_age_visualization.png) <br>
@@ -27,11 +27,8 @@ So I took the average amount of riders in that age bracket to smooth out the dis
 [SQL code](https://github.com/aklesitz/Bikeshare_Project/blob/main/Bluebikes_rider_age_distribution_cleaned.sql) <br><br>
 Lastly for demographic data, 64% of riders identified as male, 22% female, and around 14% unknown or unreported. <br><br>
 ![Gender makeup of riders](Visualizations/gender_viz_of_total_riders.png) <br><br>
-Does our target demographic show the same trends? <br>
+Does the data for our target demographic show the same trends? <br>
 
 ### Bike Docking Stations
 This table contains the latitude and longtitude, district, total number of bike docks, and numerical id for each of the 339 stations across Boston. It is straightforward and needed no cleaning. The latitude and longtitude columns were very helpful in creating visualizations for this project.
-### Rides Data
-For the data on the rides themselves, I assumed that bikes weren't out for longer than 5 hours. Unreturned or stolen bikes skew the ridership data. This filtered out 16,211 rides across all of the years of data. Perhaps most important to this project was the user_type column, which denotes whether a rider is a one time use customer or a long term subscriber. Subscribers accounted for 80% of riders in this dataset, so the remaining 20% is the demographic I am most concerned about, as I look for potential ways to get these riders to sign up for long term subscriptions. <br><br>
-The subscription model allows for rides up to 45 minutes in length, so I further filtered the data to look at rides no longer than that to target local commuters who do not currently have subscriptions. Tourists are able to buy 24 hour day passes when visiting the city, but are unlikely to sign up for yearly subscriptions. <br>
-[SQL CODE](https://github.com/aklesitz/Bikeshare_Project/blob/main/Bluebikes_rides_data.sql)
+
