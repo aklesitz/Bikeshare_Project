@@ -10,7 +10,8 @@ This data was collected from [Bluebikes System Data](https://bluebikes.com/syste
 Most important to this project was the user_type column, which denotes whether a rider is a one time use customer or a long term subscriber. Subscribers accounted for 80% of riders in this dataset, so the remaining 20% is the demographic I am most concerned about, as I look for potential ways to get these riders to sign up for long term subscriptions. <br>
 Then I looked at the average length of time a rider takes out a bike. First I filtered out rides over 5 hours, as these are likely unreturned or lost bikes, as well as rides under one minute, which are likely user mistakes. Among subscribers, the average length of a ride is 12.61 minutes. Among customers, it is 30.01 minutes. <br>
 The subscription model allows for rides up to 45 minutes in length, so I filtered the data to look at rides no longer than that to find our target demographic of local commuters who do not currently have subscriptions. Tourists are able to buy 24 hour day passes when visiting the city, but are unlikely to sign up for yearly subscriptions. <br>
-This gave me a dataset of 1,090,446 rides in our target demographic to analyze, so I imported the results of this query into a local database. <br>
+This gave me a dataset of 1,090,446 rides in our target demographic to analyze, so I imported the results of this query into a table named 'bluebikes_target_demographic'. <br>
+I applied the same criteria to create a table of commuters who do have subscriptions (rides between 1 and 45 minutes long) in order to compare the demographics and riding habits of our two datasets, which gave me a dataset of 5,451,967 records. In all, the cleaned dataset contains 6,542,413 records.
 [SQL CODE](https://github.com/aklesitz/Bikeshare_Project/blob/main/Bluebikes_rides_data.sql) <br>
 
 

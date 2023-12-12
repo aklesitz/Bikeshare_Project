@@ -51,7 +51,7 @@ WHERE
 	end_time - start_time < interval '5 hours'
 	AND end_time - start_time > interval '5 minute';
 
--- Rides under 45 min (demographic of local commuters who are not signed up for subscriptions)
+-- Finding the demographic of customers rides under 45 minutes
 WITH bluebikes_all AS (
 	SELECT *
 	FROM bluebikes_2016
@@ -70,3 +70,23 @@ FROM bluebikes_all
 WHERE end_time - start_time < interval '45 minutes'
 AND end_time - start_time > interval '1 minutes'
 AND user_type ilike 'customer';
+
+-- Finding the demographic of subscribers with rides under 45 minutes
+WITH bluebikes_all AS (
+	SELECT *
+	FROM bluebikes_2016
+	UNION ALL
+	SELECT *
+	FROM bluebikes_2017
+	UNION ALL
+	SELECT *
+	FROM bluebikes_2018
+	UNION ALL
+	SELECT *
+	FROM bluebikes_2019
+)
+SELECT *
+FROM bluebikes_all
+WHERE end_time - start_time < interval '45 minutes'
+AND end_time - start_time > interval '1 minutes'
+AND user_type ilike 'subscriber';
