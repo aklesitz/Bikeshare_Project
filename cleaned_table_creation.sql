@@ -1,5 +1,5 @@
 -- Creating table for customers (target demographic)
-CREATE TABLE public.bluebikes_target_demographic
+CREATE TABLE public.bluebikes_customers
 (
     bike_id integer,
     start_time timestamp without time zone,
@@ -11,7 +11,7 @@ CREATE TABLE public.bluebikes_target_demographic
     user_gender integer
 );
 
-ALTER TABLE IF EXISTS public.bluebikes_target_demographic
+ALTER TABLE IF EXISTS public.bluebikes_customers
     OWNER to postgres;
 	
 -- Creating table for subscribers
