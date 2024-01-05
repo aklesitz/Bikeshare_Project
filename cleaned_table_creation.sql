@@ -7,7 +7,7 @@ CREATE TABLE public.bluebikes_customers
     start_station_id integer,
     end_station_id integer,
     user_type text,
-    user_birth_year text,
+    user_birth_year integer,
     user_gender integer
 );
 
@@ -23,7 +23,7 @@ CREATE TABLE public.bluebikes_subscribers
     start_station_id integer,
     end_station_id integer,
     user_type text,
-    user_birth_year text,
+    user_birth_year integer,
     user_gender integer
 );
 

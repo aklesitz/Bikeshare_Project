@@ -28,7 +28,9 @@ So I took the average amount of riders in that age bracket to smooth out the dis
 [SQL code](https://github.com/aklesitz/Bikeshare_Project/blob/main/Bluebikes_rider_age_distribution_cleaned.sql) <br><br>
 Lastly for demographic data, 64% of riders identified as male, 22% female, and around 14% unknown or unreported. <br><br>
 ![Gender makeup of riders](Visualizations/gender_viz_of_total_riders.png) <br><br>
-Does the data for our target demographic show the same trends? <br>
+This was to get an idea of demographics for the entire dataset. For my analysis, I applied this same criteria to clean the demographic data for the customer and subscriber tables. <br>
+
+
 
 ### Bike Docking Stations
 This table contains the latitude and longtitude, district, total number of bike docks, and numerical id for each of the 339 stations across Boston. It is straightforward and needed no cleaning. The latitude and longtitude columns were very helpful in creating visualizations for this project.

@@ -65,7 +65,19 @@ WITH bluebikes_all AS (
 	SELECT *
 	FROM bluebikes_2019
 )
-SELECT *
+SELECT 
+	bike_id,
+	start_time,
+	end_time,
+	start_station_id,
+	end_station_id,
+	user_type,
+	 	CASE
+        WHEN user_birth_year ~ E'^\\d+\\.0$' THEN TRUNC(CAST(user_birth_year AS numeric))
+        WHEN user_birth_year ~ E'^\\d+$' THEN CAST(user_birth_year AS numeric)
+        ELSE 0
+    END AS user_birth_year,
+	user_gender
 FROM bluebikes_all
 WHERE end_time - start_time < interval '45 minutes'
 AND end_time - start_time > interval '1 minutes'
@@ -85,7 +97,19 @@ WITH bluebikes_all AS (
 	SELECT *
 	FROM bluebikes_2019
 )
-SELECT *
+SELECT 
+	bike_id,
+	start_time,
+	end_time,
+	start_station_id,
+	end_station_id,
+	user_type,
+ 	CASE
+        WHEN user_birth_year ~ E'^\\d+\\.0$' THEN TRUNC(CAST(user_birth_year AS numeric))
+        WHEN user_birth_year ~ E'^\\d+$' THEN CAST(user_birth_year AS numeric)
+        ELSE 0
+    END AS user_birth_year,
+	user_gender
 FROM bluebikes_all
 WHERE end_time - start_time < interval '45 minutes'
 AND end_time - start_time > interval '1 minutes'
