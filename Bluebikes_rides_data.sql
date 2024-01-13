@@ -51,7 +51,7 @@ WHERE
 	end_time - start_time < interval '5 hours'
 	AND end_time - start_time > interval '5 minute';
 
--- Finding the demographic of customers rides under 45 minutes
+-- Finding and creating dataset for the demographic of customers rides under 45 minutes
 WITH bluebikes_all AS (
 	SELECT *
 	FROM bluebikes_2016
@@ -83,7 +83,7 @@ WHERE end_time - start_time < interval '45 minutes'
 AND end_time - start_time > interval '1 minutes'
 AND user_type ilike 'customer';
 
--- Finding the demographic of subscribers with rides under 45 minutes
+-- Finding and creating dataset for the demographic of subscribers with rides under 45 minutes
 WITH bluebikes_all AS (
 	SELECT *
 	FROM bluebikes_2016
