@@ -16,23 +16,15 @@ WHERE user_birth_year >= 1966
 AND user_birth_year <= 1972
 AND user_birth_year::numeric != 1969;
 
--- Cleaning visualization of customer's age distribution
-WITH AgeDistribution AS (
-	SELECT 
-		2019 - user_birth_year AS user_age,
-		COUNT(*) AS riders
-	FROM bluebikes_customers
-	WHERE 
-		user_birth_year > 0
-		AND (2019 - user_birth_year) <= 75
-	GROUP BY user_birth_year
-)
-SELECT
-	user_age,
+-- Plugging in resulting avg (2980) to remake visualization of distribution
+SELECT 
+	2019 - user_birth_year as user_age, 
 	CASE
-		WHEN user_age != 50 THEN COUNT(*)
-		ELSE AVG(riders) OVER (ORDER BY user_age ROWS BETWEEN 3 PRECEDING AND 2 FOLLOWING)
+		WHEN user_birth_year = 1969 THEN 2980
+		ELSE COUNT(*)
 	END AS riders
-FROM AgeDistribution
-GROUP BY user_age, riders
-ORDER BY user_age;
+FROM bluebikes_customers
+WHERE user_birth_year > 0
+AND (2019 - user_birth_year) <= 75
+GROUP BY user_birth_year
+ORDER BY user_age;	

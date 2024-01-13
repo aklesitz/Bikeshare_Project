@@ -21,11 +21,11 @@ I applied the same criteria to create a table of commuters who do have subscript
 ### Customer Demographic Data Cleaning
 To clean the customer's demographic data, I filtered out riders over 75 as calculated by the last year of data available for this project: 2019. There were reported birth years as far back as 1863, which was obviously unreliable data. This filtered out 9,143 reported rides. I also filtered out the 447,149 unreported birth years. In total 6.67% of the data on riders' birth years was unreliable. The earliest reported birth year was 2003, and a 16 year old rider seemed likely.  <br><br>
 [SQL CODE](https://github.com/aklesitz/Bikeshare_Project/blob/main/Bluebikes_customer_demographics.sql) <br> <br>
-Visualizing the age distribution of riders revealed another problem: <br><br>
+There is a large outlier in the age distribution as seen in this visualization: <br><br>
 ![Age Distribution](Visualizations/customer_age_viz.png) <br>
 There is a huge spike among riders aged 50? More likely that riders are reporting their year of birth as 1969. Cute... <br><br>
 So I took the average amount of riders in a six year span to smooth out the distribution: <br><br>
-![Age Distribution Cleaned](Visualizations/rider_age_viz_cleaned.png) <br><br>
+![Age Distribution Cleaned](Visualizations/customer_age_viz_cleaned.png) <br><br>
 [SQL code](https://github.com/aklesitz/Bikeshare_Project/blob/main/Bluebikes_rider_age_distribution_cleaned.sql) <br><br>
 Lastly for demographic data, 64% of riders identified as male, 22% female, and around 14% unknown or unreported. <br><br>
 ![Gender makeup of riders](Visualizations/gender_viz_of_total_riders.png) <br><br>
