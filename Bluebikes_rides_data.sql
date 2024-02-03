@@ -93,6 +93,7 @@ AND end_time - start_time > interval '1 minutes'
 AND user_type ilike 'customer';
 
 -- Finding and creating dataset for the demographic of subscribers with rides under 45 minutes
+-- Including latitude and longtitude of starting and ending stations
 WITH bluebikes_all AS (
 	SELECT *
 	FROM bluebikes_2016
