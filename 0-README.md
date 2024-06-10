@@ -14,9 +14,14 @@ I want to use this dataset to create an origin-destination map to see the most p
 For the user_birth_year column, some were stored as text and some were stored as floating point integers, so I used a CASE statement and a regex expression to search for the entries with a decimal. I then removed the decimal and cast the datatype to numeric. Any nulls were converted to 0's. This will allow me to perform arithmetic later in my analysis and find the ages of users based on their birth year. Bike_id, start_station_id, end_station_id, and user_gender are all unique signifiers and will require no math, but I kept them as integers in order to save space.
 This gave me a dataset of 1,045,283 rides in our target demographic to analyze, so I imported the results of this query into a table named 'bluebikes_customers'. <br>
 I applied the same criteria to create a table of commuters who do have subscriptions (for rides between 1 and 45 minutes long) in order to compare the demographics and riding habits of our two datasets, which gave me a dataset of 5,253,200 records. <br>
-[SQL CODE](https://github.com/aklesitz/Bikeshare_Project/blob/main/Bluebikes_rides_data.sql) <br>
 
+[SQL CODE EDA and Data Cleaning](https://github.com/aklesitz/Bikeshare_Project/blob/main/Bluebikes_rides_data.sql) <br>
 
+Because I don't have superuser access to the source database, I am downloading the results of these queries to csv files in order to migrate them to my own server. No problem with the customer database but the subscriber results are too large to download, so I am splitting the results by year. 
+
+[SQL CODE Cleaned Table Creation](https://github.com/aklesitz/Bikeshare_Project/blob/main/cleaned_table_creation.sql) <br>
+
+With the data I need properly cleaned and formatted, I can now use it to create an interactive dashboard of the most popular routes originating from each station.
 
 
 ### Customer And Subscriber Demographic Data Cleaning And EDA

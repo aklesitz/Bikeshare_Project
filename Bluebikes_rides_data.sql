@@ -51,7 +51,7 @@ WHERE
 	end_time - start_time < interval '5 hours'
 	AND end_time - start_time > interval '5 minute';
 
--- Finding and creating dataset for the demographic of customers rides under 45 minutes
+-- Finding and creating dataset for the demographic of all customer rides under 45 minutes
 -- Joining lat and long for creation of origin-destination map
 WITH bluebikes_all AS (
 	SELECT *
@@ -94,19 +94,8 @@ AND user_type ilike 'customer';
 
 -- Finding and creating dataset for the demographic of subscribers with rides under 45 minutes
 -- Including latitude and longtitude of starting and ending stations
-WITH bluebikes_all AS (
-	SELECT *
-	FROM bluebikes_2016
-	UNION ALL
-	SELECT *
-	FROM bluebikes_2017
-	UNION ALL
-	SELECT *
-	FROM bluebikes_2018
-	UNION ALL
-	SELECT *
-	FROM bluebikes_2019
-)
+
+-- Dataset for 2016
 SELECT 
 	bike_id,
 	start_time,
@@ -124,7 +113,88 @@ SELECT
         ELSE 0
     END AS user_birth_year,
 	user_gender
-FROM bluebikes_all a
+FROM bluebikes_2016 a
+JOIN bluebikes_stations s
+	ON a.start_station_id = s.id
+JOIN bluebikes_stations e
+	ON a.end_station_id = e.id
+WHERE end_time - start_time < interval '45 minutes'
+AND end_time - start_time > interval '1 minutes'
+AND user_type ilike 'subscriber';
+
+-- Dataset for 2017
+SELECT 
+	bike_id,
+	start_time,
+	end_time,
+	start_station_id,
+	s.latitude as starting_lat,
+	s.longitude as starting_long,
+	end_station_id,
+	e.latitude as ending_lat,
+	e.longitude as ending_long,
+	user_type,
+	 	CASE
+        WHEN user_birth_year ~ E'^\\d+\\.0$' THEN TRUNC(CAST(user_birth_year AS numeric))
+        WHEN user_birth_year ~ E'^\\d+$' THEN CAST(user_birth_year AS numeric)
+        ELSE 0
+    END AS user_birth_year,
+	user_gender
+FROM bluebikes_2017 a
+JOIN bluebikes_stations s
+	ON a.start_station_id = s.id
+JOIN bluebikes_stations e
+	ON a.end_station_id = e.id
+WHERE end_time - start_time < interval '45 minutes'
+AND end_time - start_time > interval '1 minutes'
+AND user_type ilike 'subscriber';
+
+-- Dataset for 2018
+SELECT 
+	bike_id,
+	start_time,
+	end_time,
+	start_station_id,
+	s.latitude as starting_lat,
+	s.longitude as starting_long,
+	end_station_id,
+	e.latitude as ending_lat,
+	e.longitude as ending_long,
+	user_type,
+	 	CASE
+        WHEN user_birth_year ~ E'^\\d+\\.0$' THEN TRUNC(CAST(user_birth_year AS numeric))
+        WHEN user_birth_year ~ E'^\\d+$' THEN CAST(user_birth_year AS numeric)
+        ELSE 0
+    END AS user_birth_year,
+	user_gender
+FROM bluebikes_2018 a
+JOIN bluebikes_stations s
+	ON a.start_station_id = s.id
+JOIN bluebikes_stations e
+	ON a.end_station_id = e.id
+WHERE end_time - start_time < interval '45 minutes'
+AND end_time - start_time > interval '1 minutes'
+AND user_type ilike 'subscriber';
+
+-- Dataset for 2019
+SELECT 
+	bike_id,
+	start_time,
+	end_time,
+	start_station_id,
+	s.latitude as starting_lat,
+	s.longitude as starting_long,
+	end_station_id,
+	e.latitude as ending_lat,
+	e.longitude as ending_long,
+	user_type,
+	 	CASE
+        WHEN user_birth_year ~ E'^\\d+\\.0$' THEN TRUNC(CAST(user_birth_year AS numeric))
+        WHEN user_birth_year ~ E'^\\d+$' THEN CAST(user_birth_year AS numeric)
+        ELSE 0
+    END AS user_birth_year,
+	user_gender
+FROM bluebikes_2019 a
 JOIN bluebikes_stations s
 	ON a.start_station_id = s.id
 JOIN bluebikes_stations e
