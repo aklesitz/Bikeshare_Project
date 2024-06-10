@@ -21,7 +21,10 @@ Because I don't have superuser access to the source database, I am downloading t
 
 [SQL CODE Cleaned Table Creation](https://github.com/aklesitz/Bikeshare_Project/blob/main/cleaned_table_creation.sql) <br>
 
-With the data I need properly cleaned and formatted, I can now use it to create an interactive dashboard of the most popular routes originating from each station.
+With the data I need properly cleaned and formatted, I can now use it to create an interactive dashboard of the most popular routes originating from each station. <br>
+[SQL CODE Popular Routes Table](https://github.com/aklesitz/Bikeshare_Project/blob/main/bluebikes_routes.sql) <br>
+
+
 
 
 ### Customer And Subscriber Demographic Data Cleaning And EDA
