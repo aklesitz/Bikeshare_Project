@@ -41,10 +41,10 @@ Stations Data
 * Used CTE to combine all four years of data and find:
   * Percentage of Subscribers vs. Customers across total dataset
   * 80% of users are already subscribers <br>
-![User Type Percentage](Visualizations\sub_vs_cust_perc.png) ![User Type Percentage Pie Chart](Visualizations\user_type_perc_viz.png) <br>
+![User Type Percentage](Visualizations/sub_vs_cust_perc.png) ![User Type Percentage Pie Chart](Visualizations/user_type_perc_viz.png) <br>
   * Average length of ride for customers and subscribers (in minutes)
     * Here I filtered out rides over 5 hours and under 5 minutes <br>
-![Average User ride time](Visualizations\avg_ride_time.png) ![Avg Ride Time Visualization](Visualizations\avg_ride_time_viz.png) <br>
+![Average User ride time](Visualizations/avg_ride_time.png) ![Avg Ride Time Visualization](Visualizations/avg_ride_time_viz.png) <br>
 
 
 
