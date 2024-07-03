@@ -17,7 +17,7 @@ ride_totals AS (
 	FROM bluebikes_all
 )
 SELECT user_type,
-	COUNT(*),
+	COUNT(*) AS total_rides,
 	COUNT(*) * 100 / rt.total_rides AS percentage
 FROM bluebikes_all,
 	ride_totals rt
