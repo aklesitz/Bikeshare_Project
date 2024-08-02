@@ -37,35 +37,19 @@ Stations Data
 * 'total_docks': total number of bike docks available at station
 * 'id': numerical identifier of bike station (Foreign Key to rides data)
 
-### Rides Data EDA
+## Rides Data EDA
 * Used CTE to combine all four years of data and find:
   * Percentage of Subscribers vs. Customers across total dataset
-  * 80% of users are already subscribers <br>
-![User Type Percentage](Visualizations/sub_vs_cust_perc.png) ![User Type Percentage Pie Chart](Visualizations/user_type_perc_viz.png) <br>
-  * Average length of ride for customers and subscribers (in minutes)
-    * Here I filtered out rides over 5 hours and under 5 minutes <br>
-![Average User ride time](Visualizations/avg_ride_time.png) ![Avg Ride Time Visualization](Visualizations/avg_ride_time_viz.png) <br>
+  * 80% of users are already subscribers
+  * The 19% of users who are not signed up for a subscription plan is our target demographic
+[SQL CODE USER TYPE MAKEUP](https://github.com/aklesitz/Bikeshare_Project/blob/main/cust_type_percentage.sql) <br>
 
-
-
-
-The subscription model allows for rides up to 45 minutes in length, so I filtered the data to look at rides no longer than that to find our target demographic of local commuters who do not currently have subscriptions. Tourists are able to buy 24 hour day passes when visiting the city, but are unlikely to sign up for yearly subscriptions. <br>
-I want to use this dataset to create an origin-destination map to see the most popular routes taken by riders, so I also joined the latitude and longtitude data for the starting and ending stations from the bluebikes_stations table.
-For the user_birth_year column, some were stored as text and some were stored as floating point integers, so I used a CASE statement and a regex expression to search for the entries with a decimal. I then removed the decimal and cast the datatype to numeric. Any nulls were converted to 0's. This will allow me to perform arithmetic later in my analysis and find the ages of users based on their birth year. Bike_id, start_station_id, end_station_id, and user_gender are all unique signifiers and will require no math, but I kept them as integers in order to save space.
-This gave me a dataset of 1,045,283 rides in our target demographic to analyze, so I imported the results of this query into a table named 'bluebikes_customers'. <br>
-I applied the same criteria to create a table of commuters who do have subscriptions (for rides between 1 and 45 minutes long) in order to compare the demographics and riding habits of our two datasets, which gave me a dataset of 5,253,200 records. <br>
-
-[SQL CODE EDA and Data Cleaning](https://github.com/aklesitz/Bikeshare_Project/blob/main/Bluebikes_rides_data.sql) <br>
-
-Because I don't have superuser access to the source database, I am downloading the results of these queries to csv files in order to migrate them to my own server. No problem with the customer database but the subscriber results are too large to download, so I am splitting the results by year. 
-
-[SQL CODE Cleaned Table Creation](https://github.com/aklesitz/Bikeshare_Project/blob/main/cleaned_table_creation.sql) <br>
-
-With the data I need properly cleaned and formatted, I can now use it to create an interactive dashboard of the most popular routes originating from each station. <br>
-
-[SQL CODE Popular Routes Table](https://github.com/aklesitz/Bikeshare_Project/blob/main/bluebikes_routes.sql) <br>
-
-
+* Average ride duration for customers and subscribers (in minutes)
+  * Created temporary tables containing just ride durations for both customers and subscribers
+  * Identified quartiles to find and exclude outliers 
+    * Average subscriber ride length: 11.23 minutes
+    * Average customer ride length: 20.21 minutes <br>
+[SQL CODE EDA](https://github.com/aklesitz/Bikeshare_Project/blob/main/sub_cust_avg_duration.sql) <br>
 
 
 ### Customer And Subscriber Demographic Data Cleaning And EDA
