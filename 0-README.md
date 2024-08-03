@@ -26,6 +26,9 @@ Rides Data
 * 'user_type': denotes whether user is customer or subscriber
 * 'user_birth_year': user's year of birth (stored as text)
 * 'user_gender': integer reflecting user's self-reported gender (0=unknown, 1=male, 2=female)
+* 'ride_id': I added a primary key for each ride across all four years of data using a global sequence
+  * I did this so that I can find and remove the outliers and errors based off ride duration and then add the demographic data back in after
+  * [SQL ADD PRIMARY KEY]() <br>
 
 Stations Data
 * 'number': unique alphanumeric identifier for each bike-docking station
@@ -41,7 +44,7 @@ Stations Data
 * Used CTE to combine all four years of data and find:
   * Percentage of Subscribers vs. Customers across total dataset
   * 80% of users are already subscribers
-  * The 19% of users who are not signed up for a subscription plan is our target demographic
+  * The 19% of users who are not signed up for a subscription plan is our target demographic <br>
 [SQL CODE USER TYPE MAKEUP](https://github.com/aklesitz/Bikeshare_Project/blob/main/cust_type_percentage.sql) <br>
 
 * Average ride duration for customers and subscribers (in minutes)
@@ -49,7 +52,7 @@ Stations Data
   * Identified quartiles to find and exclude outliers 
     * Average subscriber ride length: 11.23 minutes
     * Average customer ride length: 20.21 minutes <br>
-[SQL CODE EDA](https://github.com/aklesitz/Bikeshare_Project/blob/main/sub_cust_avg_duration.sql) <br>
+[SQL CODE OUTLIER IDENTIFICATION AND AVG RIDE TIME](https://github.com/aklesitz/Bikeshare_Project/blob/main/sub_cust_avg_duration.sql) <br>
 
 
 ### Customer And Subscriber Demographic Data Cleaning And EDA

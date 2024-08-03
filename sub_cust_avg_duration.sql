@@ -11,19 +11,7 @@ CREATE TEMPORARY TABLE bluebikes_all AS
 	UNION ALL
 	SELECT *
 	FROM bluebikes_2019;
-
--- Percentages of subscribers vs customers
-WITH ride_totals AS (
-	SELECT COUNT(*) AS total_rides
-	FROM bluebikes_all
-)
-SELECT user_type,
-	COUNT(*) AS total_rides,
-	COUNT(*) * 100 / rt.total_rides AS percentage
-FROM bluebikes_all,
-	ride_totals rt
-GROUP BY user_type, rt.total_rides;
-
+	
 -- Finding average subscriber ride duration with outliers excluded
 
 -- Creating temporary table for subscribers duration
@@ -31,7 +19,9 @@ GROUP BY user_type, rt.total_rides;
 -- There were a few rides with negative duration, which are obviously errors
 -- Filtering out those with WHERE statement end_time > start_time
 CREATE TEMPORARY TABLE sub_duration AS 
-	SELECT ROUND((EXTRACT(EPOCH FROM end_time - start_time) / 60), 2) AS duration
+	SELECT 
+		ROUND((EXTRACT(EPOCH FROM end_time - start_time) / 60), 2) AS duration,
+		ride_id
 	FROM bluebikes_all
 	WHERE user_type ilike 'subscriber'
 	AND end_time > start_time;
@@ -95,6 +85,18 @@ FROM sub_duration
 WHERE duration NOT IN (SELECT * FROM sub_outliers);
 
 -- The average ride time for subscribers (excluding outliers) is 11.23 minutes
+
+-- All subscriber rides with demographic data added
+-- Duration outliers removed
+WITH sub_outlier_removed AS (
+	SELECT ride_id
+	FROM sub_duration 
+	WHERE duration NOT IN (SELECT * FROM sub_outliers)
+)
+SELECT *
+FROM bluebikes_all
+RIGHT JOIN sub_outlier_removed
+USING(ride_id);
 
 
 -- Now to do the same for the customer data
@@ -164,3 +166,15 @@ FROM cust_duration
 WHERE duration NOT IN (SELECT * FROM cust_outliers);
 
 -- The average ride time for customers (excluding outliers) is 20.21 minutes
+
+-- All customer rides with demographic data added
+-- Duration outliers removed
+WITH cust_outlier_removed AS (
+	SELECT ride_id
+	FROM cust_duration 
+	WHERE duration NOT IN (SELECT * FROM cust_outliers)
+)
+SELECT *
+FROM bluebikes_all
+RIGHT JOIN cust_outlier_removed
+USING(ride_id);
