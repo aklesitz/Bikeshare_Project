@@ -28,7 +28,7 @@ Rides Data
 * 'user_gender': integer reflecting user's self-reported gender (0=unknown, 1=male, 2=female)
 * 'ride_id': I added a primary key for each ride across all four years of data using a global sequence
   * I did this so that I can find and remove the outliers and errors based off ride duration and then add the demographic data back in after
-  * [SQL ADD PRIMARY KEY]() <br>
+  * [SQL ADD PRIMARY KEY](https://github.com/aklesitz/Bikeshare_Project/blob/main/add_primary_key.sql) <br>
 
 Stations Data
 * 'number': unique alphanumeric identifier for each bike-docking station
