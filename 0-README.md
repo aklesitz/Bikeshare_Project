@@ -49,10 +49,17 @@ Stations Data
 
 * Average ride duration for customers and subscribers (in minutes)
   * Created temporary tables containing just ride durations for both customers and subscribers
+  * Created universal index for rides across all years of data
+[SQL CODE UNIVERSAL INDEX](https://github.com/aklesitz/Bikeshare_Project/blob/main/add_primary_key.sql)
   * Identified quartiles to find and exclude outliers 
     * Average subscriber ride length: 11.23 minutes
     * Average customer ride length: 20.21 minutes <br>
 [SQL CODE OUTLIER IDENTIFICATION AND AVG RIDE TIME](https://github.com/aklesitz/Bikeshare_Project/blob/main/sub_cust_avg_duration.sql) <br>
+* Uploaded cleaned data to Power BI to create visualizations
+  * Frequency distribution for subscriber ride times: <br><br>
+  ![Frequency Distribution Subscriber Cleaned](Visualizations\freq_dist_subscriber_duration_cleaned.png) <br><br>
+  * Frequency distribution for customer ride times: <br><br>
+  ![Frequency Distribution Customer Cleaned](Visualizations\freq_dist_customer.png)
 
 
 ### Customer And Subscriber Demographic Data Cleaning And EDA
