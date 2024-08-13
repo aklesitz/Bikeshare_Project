@@ -12,7 +12,7 @@ CREATE TEMPORARY TABLE bluebikes_all AS
 	SELECT *
 	FROM bluebikes_2019;
 	
--- Finding average subscriber ride duration with outliers excluded
+-- Identifying and removing outliers for subscriber rides
 
 -- Creating temporary table for subscribers duration
 -- Formatting duration in minutes rounded to 2 decimal places
@@ -79,15 +79,8 @@ FROM sub_duration, IQR, sub_first_quartile, sub_third_quartile
 WHERE duration > ((SELECT iqr FROM IQR) * 1.5 + Q3)
 OR duration < (Q1 - ((SELECT iqr FROM IQR) * 1.5));
 
--- Finding average subscriber ride duration excluding identified outliers
-SELECT ROUND(AVG(duration), 2) AS subscriber_avg_duration
-FROM sub_duration
-WHERE duration NOT IN (SELECT * FROM sub_outliers);
-
--- The average ride time for subscribers (excluding outliers) is 11.23 minutes
-
--- All subscriber rides with demographic data added
--- Duration outliers removed
+-- Creating new table for subscriber rides with outliers removed
+CREATE TABLE sub_outlier_removed AS 
 WITH sub_outlier_removed AS (
 	SELECT ride_id
 	FROM sub_duration 
@@ -100,9 +93,10 @@ USING(ride_id);
 
 
 -- Now to do the same for the customer data
-
 CREATE TEMPORARY TABLE cust_duration AS 
-	SELECT ROUND((EXTRACT(EPOCH FROM end_time - start_time) / 60), 2) AS duration
+	SELECT 
+		ROUND((EXTRACT(EPOCH FROM end_time - start_time) / 60), 2) AS duration,
+		ride_id
 	FROM bluebikes_all
 	WHERE user_type ilike 'customer'
 	AND end_time > start_time;
@@ -160,15 +154,8 @@ FROM cust_duration, IQR, cust_first_quartile, cust_third_quartile
 WHERE duration > ((SELECT iqr FROM IQR) * 1.5 + Q3)
 OR duration < (Q1 - ((SELECT iqr FROM IQR) * 1.5));
 
--- Finding average subscriber ride duration excluding identified outliers
-SELECT ROUND(AVG(duration), 2) AS customer_avg_duration
-FROM cust_duration
-WHERE duration NOT IN (SELECT * FROM cust_outliers);
-
--- The average ride time for customers (excluding outliers) is 20.21 minutes
-
--- All customer rides with demographic data added
--- Duration outliers removed
+-- Creating table for customer ride durations with outliers removed
+CREATE TABLE cust_outlier_removed AS
 WITH cust_outlier_removed AS (
 	SELECT ride_id
 	FROM cust_duration 
@@ -178,3 +165,74 @@ SELECT *
 FROM bluebikes_all
 RIGHT JOIN cust_outlier_removed
 USING(ride_id);
+
+-- Finding descriptive statistics for ride durations
+-- Both user segments, outliers removed
+WITH all_ride_duration AS (
+    SELECT
+        user_type,
+        ROUND(EXTRACT(EPOCH FROM end_time - start_time) / 60, 2) AS duration
+    FROM cust_outlier_removed
+    UNION ALL
+    SELECT
+        user_type,
+        ROUND(EXTRACT(EPOCH FROM end_time - start_time) / 60, 2) AS duration
+    FROM sub_outlier_removed
+),
+ranked_durations AS (
+    SELECT
+        user_type,
+        duration,
+        ROW_NUMBER() OVER (PARTITION BY user_type ORDER BY duration) AS row_num,
+        COUNT(*) OVER (PARTITION BY user_type) AS total_count
+    FROM all_ride_duration
+),
+median_value AS (
+    SELECT 
+        user_type,
+        duration AS median
+    FROM ranked_durations
+    WHERE row_num = (total_count + 1) / 2
+),
+mean_value AS (
+    SELECT 
+        user_type, 
+        ROUND(AVG(duration), 2) AS mean
+    FROM all_ride_duration
+    GROUP BY user_type
+),
+mode_value AS (
+    SELECT 
+        user_type,
+        duration AS mode,
+        COUNT(*) AS frequency
+    FROM all_ride_duration
+    GROUP BY user_type, duration
+    ORDER BY user_type, frequency DESC
+),
+mode_value_ranked AS (
+    SELECT
+        user_type,
+        mode,
+        ROW_NUMBER() OVER (PARTITION BY user_type ORDER BY frequency DESC) AS rank
+    FROM mode_value
+)
+-- Pivoting the data
+SELECT
+    'mean' AS statistic,
+    MAX(CASE WHEN user_type ILIKE 'customer' THEN mean END) AS customer,
+    MAX(CASE WHEN user_type ILIKE 'subscriber' THEN mean END) AS subscriber
+FROM mean_value
+UNION ALL
+SELECT
+    'median' AS statistic,
+    MAX(CASE WHEN user_type ILIKE 'customer' THEN median END) AS customer,
+    MAX(CASE WHEN user_type ILIKE 'subscriber' THEN median END) AS subscriber
+FROM median_value
+UNION ALL
+SELECT
+    'mode' AS statistic,
+    MAX(CASE WHEN user_type ILIKE 'customer' THEN mode END) AS customer,
+    MAX(CASE WHEN user_type ILIKE 'subscriber' THEN mode END) AS subscriber
+FROM mode_value_ranked
+WHERE rank = 1;
