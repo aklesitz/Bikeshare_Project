@@ -216,6 +216,15 @@ mode_value_ranked AS (
         mode,
         ROW_NUMBER() OVER (PARTITION BY user_type ORDER BY frequency DESC) AS rank
     FROM mode_value
+),
+std_dev_value AS (
+	SELECT 
+		ard.user_type,
+		ROUND(SQRT(SUM(POWER((ard.duration - mv.mean), 2)) / COUNT(*)), 2) AS std_dev
+	FROM all_ride_duration ard
+	JOIN mean_value mv
+		ON ard.user_type = mv.user_type
+	GROUP BY ard.user_type
 )
 -- Pivoting the data
 SELECT
@@ -235,4 +244,10 @@ SELECT
     MAX(CASE WHEN user_type ILIKE 'customer' THEN mode END) AS customer,
     MAX(CASE WHEN user_type ILIKE 'subscriber' THEN mode END) AS subscriber
 FROM mode_value_ranked
-WHERE rank = 1;
+WHERE rank = 1
+UNION ALL
+SELECT
+	'std_dev' AS statistic,
+	MAX(CASE WHEN user_type ILIKE 'customer' THEN std_dev END) AS customer,
+	MAX(CASE WHEN user_type ILIKE 'subscriber' THEN std_dev END) AS subscriber
+FROM std_dev_value;

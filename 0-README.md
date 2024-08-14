@@ -50,8 +50,8 @@ Stations Data
 * Average ride duration for customers and subscribers (in minutes)
   * Created temporary tables containing just ride durations for both customers and subscribers
   * Identified quartiles to find and exclude outliers 
-  * Created new tables with identified outliers removed <br>
-  [SQL CODE OUTLIER IDENTIFICATION AND AVG RIDE TIME](https://github.com/aklesitz/Bikeshare_Project/blob/main/sub_cust_avg_duration.sql) <br>
+  * Created new tables with identified outliers removed <br><br>
+  [SQL CODE OUTLIER IDENTIFICATION AND AVG RIDE TIME](https://github.com/aklesitz/Bikeshare_Project/blob/main/sub_cust_avg_duration.sql) <br><br>
   ![Descriptive Statistics for Ride Durations](Visualizations/desc_stat_ride_dur.png) <br><br>
 * Uploaded cleaned data to Power BI to create visualizations
   * **Frequency distribution for subscriber ride times:** <br><br>
