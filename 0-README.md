@@ -30,7 +30,7 @@ Rides Data
   * I did this so that I can find and remove the outliers and errors based off ride duration and then add the demographic data back in after
   * [SQL ADD PRIMARY KEY](https://github.com/aklesitz/Bikeshare_Project/blob/main/add_primary_key.sql) <br>
 
-Stations Data
+## Stations Data
 * 'number': unique alphanumeric identifier for each bike-docking station
 * 'name': name of station
 * 'latitude'
@@ -50,7 +50,7 @@ Stations Data
 * Average ride duration for customers and subscribers (in minutes)
   * Created temporary tables containing just ride durations for both customers and subscribers
   * Identified quartiles to find and exclude outliers 
-  * Created new tables with identified outliers removed <br><br>
+  * Created new tables with identified outliers removed <br>
   [SQL CODE OUTLIER IDENTIFICATION AND AVG RIDE TIME](https://github.com/aklesitz/Bikeshare_Project/blob/main/sub_cust_avg_duration.sql) <br><br>
   ![Descriptive Statistics for Ride Durations](Visualizations/desc_stat_ride_dur.png) <br><br>
 * Uploaded cleaned data to Power BI to create visualizations
@@ -58,4 +58,26 @@ Stations Data
   ![Frequency Distribution Subscriber Cleaned](Visualizations/freq_dist_subscriber_duration_cleaned.png) <br><br>
   * **Frequency distribution for customer ride times:** <br><br>
   ![Frequency Distribution Customer Cleaned](Visualizations/freq_dist_customer.png) <br><br>
+  [MEDIUM ARTICLE ON VIZ CREATION](https://medium.com/@aklesitz/frequency-distribution-chart-in-power-bi-5786b15bead7)
 
+## Data Model: Top 5 Routes From Each Station
+* Used window function to rank routes from each station based off of frequency of use
+* Modeled data for both customer and subscriber use
+* Verified results using bluebikes station data
+  * Found an error: While verifying data, found a discrepancy of 55 records
+    * Further research found there is no ride data for 11 stations listed in stations dataset
+    * Appears that these stations may have been discontinued, as I found no record of them on the Bluebikes website
+  * The subscriber ranked routes table has one less than the customers table
+    * Station 431 has only 4 rankings, there were only 4 recorded subscriber rides from this station
+* Pulled all rides that matched results of top routes to model data for origin-destination map with the following columns:
+  * 'orig_dest': denotes if record for ride origin or ride destination
+  * 'station': station number
+  * 'station name': name of station
+  * 'path_id': route taken (start_station_id and end_station_id with '_' delimiter)
+  * 'latitude'
+  * 'longitude'
+[SQL TOP 5 ROUTES FROM EACH STATION](https://github.com/aklesitz/Bikeshare_Project/blob/main/top_routes.sql)
+
+## Next Steps
+1. Find average ride times from each station
+2. Research demographic information among top stations, underutilized stations 
